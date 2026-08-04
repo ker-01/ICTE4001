@@ -9,19 +9,55 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(irobot_create_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
+find_package(rclcpp_action REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
 add_executable(tb4_cpp_node src/tb4_cpp_node.cpp)
+add_executable(tb4_cpp_action_server src/tb4_cpp_action_server.cpp)
+add_executable(tb4_cpp_srv_server src/tb4_cpp_srv_server.cpp)
 ament_target_dependencies(tb4_cpp_node rclcpp irobot_create_msgs)
+
+ament_target_dependencies(
+  tb4_cpp_srv_server
+  rclcpp
+  irobot_create_msgs
+  std_srvs
+)
+
+ament_target_dependencies(
+  tb4_cpp_action_server
+  rclcpp
+  irobot_create_msgs
+  rclcpp_action
+  geometry_msgs
+  nav_msgs
+)
 
 target_include_directories(tb4_cpp_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
-target_compile_features(tb4_cpp_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
-install(TARGETS tb4_cpp_node
+target_include_directories(tb4_cpp_action_server PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+
+target_include_directories(tb4_cpp_srv_server PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+
+target_compile_features(tb4_cpp_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(tb4_cpp_action_server PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(tb4_cpp_srv_server PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
+
+
+install(TARGETS tb4_cpp_node tb4_cpp_srv_server tb4_cpp_action_server
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
