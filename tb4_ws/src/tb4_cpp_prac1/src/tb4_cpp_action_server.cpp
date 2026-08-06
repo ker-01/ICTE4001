@@ -86,6 +86,7 @@ rclcpp_action::CancelResponse TurtleBot4Prac1::handle_cancel(
   RCLCPP_INFO(this->get_logger(), "Received request to cancel goal");
   (void)goal_handle;
   return rclcpp_action::CancelResponse::ACCEPT;
+  
 }
 
 void TurtleBot4Prac1::handle_accepted(const std::shared_ptr<GoalHandleDriveDistance> goal_handle)
