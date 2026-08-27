@@ -92,7 +92,8 @@ void TB4ArcActionServer::handle_accepted(const std::shared_ptr<rclcpp_action::Se
 {
   using namespace std::placeholders;
   // this needs to return quickly to avoid blocking the executor, so spin up a new thread
-  std::thread{std::bind(&TB4ArcActionServer::execute, this, _1), goal_handle}.detach();  
+  std::thread{std::bind(&TB4ArcActionServer::execute, this, _1), goal_handle}.detach();
+
 }
 /* TODO TASK - MILESTONE #4.2
   complete the  call back function of "TB4ArcActionServer::handle_cancel" that cancel the goal 
@@ -103,6 +104,7 @@ rclcpp_action::CancelResponse TB4ArcActionServer::handle_cancel(
   RCLCPP_INFO(this->get_logger(), "Received request to cancel goal");
   (void)goal_handle;
   return rclcpp_action::CancelResponse::ACCEPT;
+
 }
 /*TODO TASK - MILESTONE #4.3
   complete the  call back function of "TB4ArcActionServer::handle_goal" that accept goal, 
@@ -119,6 +121,11 @@ rclcpp_action::GoalResponse TB4ArcActionServer::handle_goal(
     goal->angle,
     goal->radius,
     goal->max_translation_speed);
+
+  if (goal->radius <= 0.0 || goal->max_translation_speed <=0.0){
+    RCLCPP_WARN(this->get_logger(), "Goal rejeceted due to invalid input args");
+    return rclcpp_action::GoalResponse::REJECT;
+  }
   (void)uuid;
   return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;  
 }
@@ -141,14 +148,17 @@ void TB4ArcActionServer::execute(const std::shared_ptr<rclcpp_action::ServerGoal
   cmd_vel.linear.set__x(goal->max_translation_speed);
   if (goal->translate_direction > 0)
     {
-      cmd_vel.angular.set__z(goal->max_translation_speed);
+      cmd_vel.angular.set__z(goal->max_translation_speed/goal->radius);
     } else{
-      cmd_vel.angular.set__z(-1*goal->max_translation_speed);
+      cmd_vel.angular.set__z(-1*goal->max_translation_speed/goal->radius);
     }
 
   int pub_freq = 100;
   rclcpp::Rate loop_rate(pub_freq);
 
+  //(radius*angle)/speed
+  // distance / speed = time
+  // time * 3 publishes / second = 3 published i.e. count
   int count = int(pub_freq*goal->radius*goal->angle/goal->max_translation_speed);
 
   geometry_msgs::msg::PoseStamped pose_stamped;
@@ -164,6 +174,7 @@ void TB4ArcActionServer::execute(const std::shared_ptr<rclcpp_action::ServerGoal
     }
 
     remaining_angle_travel = goal->radius *goal->angle - goal->max_translation_speed*i/pub_freq;
+    RCLCPP_INFO(this->get_logger(), "%f", remaining_angle_travel);
     // Publish the command velocity
     cmd_vel_publisher_->publish(cmd_vel);
     // Publish feedback
