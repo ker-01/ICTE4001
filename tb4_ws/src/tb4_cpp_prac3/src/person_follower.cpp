@@ -114,15 +114,15 @@ void PersonFollower::scan_callback(const sensor_msgs::msg::LaserScan::SharedPtr 
   {
     float closest_object_bearing = (angle_global_min + min_index*angle_increment) + (PI/2); 
 
-    // RCLCPP_INFO(
-    //     this->get_logger(),
+    RCLCPP_INFO(
+        this->get_logger(),
         
-    //     "Closest object: distance = %.2f m, index = %d, bearing = %.2f rad (%.1f deg)",
-    //     min_distance,
-    //     min_index,
-    //     closest_object_bearing,
-    //     closest_object_bearing * 180.0 / PI
-    // );
+        "Closest object: distance = %.2f m, index = %d, bearing = %.2f rad (%.1f deg)",
+        min_distance,
+        min_index,
+        closest_object_bearing,
+        closest_object_bearing * 180.0 / PI
+    );
     cmd_vel_msg.angular.z = angle_control_gain_*(closest_object_bearing - following_angle_);
     cmd_vel_msg.linear.x = following_distance_control_gain_*(min_distance - following_distance_);
   }

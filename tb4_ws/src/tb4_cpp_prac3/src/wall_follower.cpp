@@ -4,6 +4,7 @@
 #include <string>
 #include <algorithm>
 #include <vector>
+#include <cmath>
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
@@ -28,12 +29,12 @@ public:
         auto buffer_zone_desc = rcl_interfaces::msg::ParameterDescriptor{};
         buffer_zone_desc.description = "A positive value used to determine whether the tracking control is on or off";
         // Declare parameters
-        this->declare_parameter<float>("following_distance", 0.7);
+        this->declare_parameter<float>("following_distance", 0.5);
         this->declare_parameter<int8_t>("wall_side", 1, wall_side_desc);
-        this->declare_parameter<float>("buffer_zone", 0.4, buffer_zone_desc);
-        this->declare_parameter<float>("forward_velocity", 0.4);
-        this->declare_parameter<float>("angle_control_gain_1", 1.0);
-        this->declare_parameter<float>("angle_control_gain_2", 1.0);
+        this->declare_parameter<float>("buffer_zone", 0.01, buffer_zone_desc);
+        this->declare_parameter<float>("forward_velocity", 0.1);
+        this->declare_parameter<float>("angle_control_gain_1", 2.0);
+        this->declare_parameter<float>("angle_control_gain_2", 2.0);
         this->declare_parameter<float>("distance_control_gain", 0.5);
         // Get parameter values
         this->get_parameter("following_distance", following_distance_);
@@ -45,7 +46,7 @@ public:
         this->get_parameter("distance_control_gain", distance_control_gain_);
         // Print parameter values
         RCLCPP_INFO(this->get_logger(), "following_distance: %.2f", following_distance_);
-        RCLCPP_INFO(this->get_logger(), "wall_side: %d", wall_side_);
+        RCLCPP_INFO(this->get_logger(), "wall_side: %ld", wall_side_);
         RCLCPP_INFO(this->get_logger(), "buffer_zone: %.2f", buffer_zone_);
         RCLCPP_INFO(this->get_logger(), "forward_velocity: %.2f", forward_velocity_);
         RCLCPP_INFO(this->get_logger(), "angle_control_gain_1: %.2f", angle_control_gain_1_);
@@ -63,7 +64,7 @@ public:
         */
         dyn_params_handler_ = this->add_on_set_parameters_callback(
         std::bind(
-        &PersonFollower::dynamicParametersCallback,
+        &WallFollower::dynamicParametersCallback,
         this, std::placeholders::_1));    
 
         this->cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>(
@@ -99,8 +100,6 @@ private:
         dynamicParametersCallback(std::vector<rclcpp::Parameter> parameters);
 
 
-    rcl_interfaces::msg::SetParametersResult
-        dynamicParametersCallback(std::vector<rclcpp::Parameter> parameters);
 
     double following_angle_;
     double following_distance_;
@@ -138,23 +137,62 @@ void WallFollower::scan_callback(const sensor_msgs::msg::LaserScan::SharedPtr sc
     {
         float closest_object_bearing = (angle_global_min + min_index*angle_increment) + (PI/2); 
 
-        // RCLCPP_INFO(
-        //     this->get_logger(),
+        RCLCPP_INFO(
+            this->get_logger(),
             
-        //     "Closest object: distance = %.2f m, index = %d, bearing = %.2f rad (%.1f deg)",
-        //     min_distance,
-        //     min_index,
-        //     closest_object_bearing,
-        //     closest_object_bearing * 180.0 / PI
-        // );
-        cmd_vel_msg.angular.z = angle_control_gain_*(closest_object_bearing - following_angle_);
-        cmd_vel_msg.linear.x = following_distance_control_gain_*(min_distance - following_distance_);
+            "Closest object: distance = %.2f m, index = %d, bearing = %.2f rad (%.1f deg)",
+            min_distance,
+            min_index,
+            closest_object_bearing,
+            closest_object_bearing * 180.0 / PI
+        );
+        cmd_vel_msg.angular.z = angle_control_gain_1_*(closest_object_bearing );
+        cmd_vel_msg.linear.x = forward_velocity_;
     }
     else
     {
-        RCLCPP_INFO(this->get_logger(), "No Object is Detected");
-        cmd_vel_msg.linear.x = 0.0;
-    }  
+      cmd_vel_msg.linear.x = forward_velocity_;
+      if (wall_side_ == 1)
+      {
+        float closest_object_bearing = (angle_global_min + min_index*angle_increment) + (PI/2) - following_angle_; 
+        RCLCPP_INFO(
+            this->get_logger(),
+            
+            "Closest object: distance = %.2f m, index = %d, bearing = %.2f rad (%.1f deg)",
+            min_distance,
+            min_index,
+            closest_object_bearing,
+            closest_object_bearing * 180.0 / PI
+        );
+        if (std::abs(closest_object_bearing)> (PI/10))
+        {
+          cmd_vel_msg.angular.z = (angle_control_gain_1_*closest_object_bearing) + angle_control_gain_2_*min_distance * (std::sin(closest_object_bearing)/closest_object_bearing) ;
+        }
+        else
+        {
+          cmd_vel_msg.angular.z = (angle_control_gain_1_*closest_object_bearing) + angle_control_gain_2_*min_distance;
+
+        }
+      }
+      else
+      {
+        float closest_object_bearing = (angle_global_min + min_index*angle_increment) + (PI/2) - following_angle_; 
+        if (std::abs(closest_object_bearing)> (PI/10))
+        {
+          cmd_vel_msg.angular.z = (angle_control_gain_1_*closest_object_bearing) - angle_control_gain_2_*min_distance * (std::sin(closest_object_bearing)/closest_object_bearing) ;
+        }
+        else
+        {
+          cmd_vel_msg.angular.z = (angle_control_gain_1_*closest_object_bearing) - angle_control_gain_2_*min_distance;
+
+        }    
+      }
+
+
+
+    }
+    cmd_vel_publisher_->publish(cmd_vel_msg); 
+  
     /*TODO TASKS
         MILESTONE # 6.1. Process the received scan_msg to get the location of the closest object in robot's environment. 
         NOTE: the four pillars of will be visible from the Lidar sensor, you have to remove the distance 
@@ -182,13 +220,7 @@ WallFollower::dynamicParametersCallback(std::vector<rclcpp::Parameter> parameter
     const auto & param_type = parameter.get_type();
     const auto & param_name = parameter.get_name();
 
-    this->get_parameter("following_distance", following_distance_);
-        this->get_parameter("wall_side", wall_side_);
-        this->get_parameter("buffer_zone", buffer_zone_);
-        this->get_parameter("forward_velocity", forward_velocity_);
-        this->get_parameter("angle_control_gain_1", angle_control_gain_1_);
-        this->get_parameter("angle_control_gain_2", angle_control_gain_2_);
-        this->get_parameter("distance_control_gain", distance_control_gain_);
+
         // Print parameter values
     if (param_type == ParameterType::PARAMETER_DOUBLE) {
       if (param_name == "following_distance") {
@@ -200,18 +232,10 @@ WallFollower::dynamicParametersCallback(std::vector<rclcpp::Parameter> parameter
           following_distance_ = 0.1;
         }
       }
-      if (param_name == "following_angle") {
-        following_angle_ = parameter.as_double();
-        if(following_angle_<0.0)
-        {
-          RCLCPP_WARN(this->get_logger(), "You've set following_angle to be negative,"
-          " this isn't allowed, so the angle will be set to be zero.");
-          following_angle_ = 0.0;
-        }
-      }
+
       if (param_name == "angle_control_gain_1") {
-        angle_control_gain_ = parameter.as_double();
-        if(angle_control_gain_<0.0)
+        angle_control_gain_1_ = parameter.as_double();
+        if(angle_control_gain_1_<0.0)
         {
           RCLCPP_WARN(this->get_logger(), "You've set the angle control gain to be negative,"
           " this isn't allowed, so the angle control gain 1 will be set to be 1.");
@@ -220,8 +244,8 @@ WallFollower::dynamicParametersCallback(std::vector<rclcpp::Parameter> parameter
       }   
       }
       if (param_name == "angle_control_gain_2") {
-        angle_control_gain_ = parameter.as_double();
-        if(angle_control_gain_<0.0)
+        angle_control_gain_2_ = parameter.as_double();
+        if(angle_control_gain_2_<0.0)
         {
           RCLCPP_WARN(this->get_logger(), "You've set the angle control gain to be negative,"
           " this isn't allowed, so the angle control gain will be set to be 1.");
@@ -258,23 +282,34 @@ WallFollower::dynamicParametersCallback(std::vector<rclcpp::Parameter> parameter
         }
         
       }     
-      if (param_name == "wall_side") {
-        wall_side_ = parameter.as_int();
-        if(wall_side_!= 1 || wall_side_ != -1)
-        {
-          RCLCPP_WARN(this->get_logger(), "You've set the wallside to be something that is not -1 or 1"
-          " this isn't allowed, so the following  control gain will be set to be 1.");
-          wall_side_ = 1;
-        }
-        
-      }                                   
+                                
       
     /*TODO TASK - MILESTONE #5.1 
       Check whether update of a parameter in the node is requested, if yes and save the updated
       parameter value.
     */
+    if (param_name == "wall_side" &&
+        param_type == ParameterType::PARAMETER_INTEGER)
+    {
+        wall_side_ = parameter.as_int();
 
-}}
+        if (wall_side_ != 1 && wall_side_ != -1)
+        {
+            RCLCPP_WARN(
+                this->get_logger(),
+                "wall_side must be either 1 or -1. Setting it to 1."
+            );
+            wall_side_ = 1;
+        }
+
+        following_angle_ = (wall_side_ > 0) ? PI / 2.0 : -PI / 2.0;
+    }
+}
+
+
+result.successful = true;
+return result;
+}
 
 int main(int argc, char ** argv)
 {
