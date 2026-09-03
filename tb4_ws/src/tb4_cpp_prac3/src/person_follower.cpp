@@ -24,7 +24,7 @@ public:
       */
 
       // Declare parameters
-      this->declare_parameter<float>("following_distance", 0.2);
+      this->declare_parameter<float>("following_distance", 0.8);
       this->declare_parameter<float>("following_angle", 0);
       this->declare_parameter<float>("angle_control_gain", 3.0);
       this->declare_parameter<float>("distance_control_gain", 0.5);

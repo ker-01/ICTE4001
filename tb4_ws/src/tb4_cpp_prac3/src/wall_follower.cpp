@@ -29,12 +29,12 @@ public:
         auto buffer_zone_desc = rcl_interfaces::msg::ParameterDescriptor{};
         buffer_zone_desc.description = "A positive value used to determine whether the tracking control is on or off";
         // Declare parameters
-        this->declare_parameter<float>("following_distance", 0.5);
+        this->declare_parameter<float>("following_distance", 1.0);
         this->declare_parameter<int8_t>("wall_side", 1, wall_side_desc);
-        this->declare_parameter<float>("buffer_zone", 0.01, buffer_zone_desc);
-        this->declare_parameter<float>("forward_velocity", 0.1);
-        this->declare_parameter<float>("angle_control_gain_1", 2.0);
-        this->declare_parameter<float>("angle_control_gain_2", 2.0);
+        this->declare_parameter<float>("buffer_zone", 0.2, buffer_zone_desc);
+        this->declare_parameter<float>("forward_velocity", 0.7);
+        this->declare_parameter<float>("angle_control_gain_1", 1.0);
+        this->declare_parameter<float>("angle_control_gain_2", 1.0);
         this->declare_parameter<float>("distance_control_gain", 0.5);
         // Get parameter values
         this->get_parameter("following_distance", following_distance_);
@@ -135,55 +135,62 @@ void WallFollower::scan_callback(const sensor_msgs::msg::LaserScan::SharedPtr sc
   
     if (min_distance > following_distance_ + buffer_zone_)
     {
-        float closest_object_bearing = (angle_global_min + min_index*angle_increment) + (PI/2); 
+      float closest_object_bearing = (angle_global_min + min_index*angle_increment) + (PI/2) - following_angle_;
+      closest_object_bearing = std::atan2(std::sin(closest_object_bearing), std::cos(closest_object_bearing));
 
-        RCLCPP_INFO(
-            this->get_logger(),
+        // RCLCPP_INFO(
+        //     this->get_logger(),
             
-            "Closest object: distance = %.2f m, index = %d, bearing = %.2f rad (%.1f deg)",
-            min_distance,
-            min_index,
-            closest_object_bearing,
-            closest_object_bearing * 180.0 / PI
-        );
+        //     "Closest object: distance = %.2f m, index = %d, bearing = %.2f rad (%.1f deg)",
+        //     min_distance,
+        //     min_index,
+        //     closest_object_bearing,
+        //     closest_object_bearing * 180.0 / PI
+        // );
         cmd_vel_msg.angular.z = angle_control_gain_1_*(closest_object_bearing );
         cmd_vel_msg.linear.x = forward_velocity_;
     }
     else
+
+    
     {
+      
       cmd_vel_msg.linear.x = forward_velocity_;
+      double distance_error = min_distance - following_distance_;
       if (wall_side_ == 1)
       {
-        float closest_object_bearing = (angle_global_min + min_index*angle_increment) + (PI/2) - following_angle_; 
-        RCLCPP_INFO(
-            this->get_logger(),
+      float closest_object_bearing = (angle_global_min + min_index*angle_increment) + (PI/2) - following_angle_;
+      closest_object_bearing = std::atan2(std::sin(closest_object_bearing), std::cos(closest_object_bearing));
+        // RCLCPP_INFO(
+        //     this->get_logger(),
             
-            "Closest object: distance = %.2f m, index = %d, bearing = %.2f rad (%.1f deg)",
-            min_distance,
-            min_index,
-            closest_object_bearing,
-            closest_object_bearing * 180.0 / PI
-        );
+        //     "Closest object: distance = %.2f m, index = %d, bearing = %.2f rad (%.1f deg)",
+        //     min_distance,
+        //     min_index,
+        //     closest_object_bearing,
+        //     closest_object_bearing * 180.0 / PI
+        // );
         if (std::abs(closest_object_bearing)> (PI/10))
         {
-          cmd_vel_msg.angular.z = (angle_control_gain_1_*closest_object_bearing) + angle_control_gain_2_*min_distance * (std::sin(closest_object_bearing)/closest_object_bearing) ;
+          cmd_vel_msg.angular.z = (angle_control_gain_1_*closest_object_bearing) + angle_control_gain_2_*distance_error * (std::sin(closest_object_bearing)/closest_object_bearing) ;
         }
         else
         {
-          cmd_vel_msg.angular.z = (angle_control_gain_1_*closest_object_bearing) + angle_control_gain_2_*min_distance;
+          cmd_vel_msg.angular.z = (angle_control_gain_1_*closest_object_bearing) + angle_control_gain_2_*distance_error;
 
         }
       }
       else
       {
-        float closest_object_bearing = (angle_global_min + min_index*angle_increment) + (PI/2) - following_angle_; 
+        float closest_object_bearing = (angle_global_min + min_index*angle_increment) + (PI/2) - following_angle_;
+        closest_object_bearing = std::atan2(std::sin(closest_object_bearing), std::cos(closest_object_bearing));
         if (std::abs(closest_object_bearing)> (PI/10))
         {
-          cmd_vel_msg.angular.z = (angle_control_gain_1_*closest_object_bearing) - angle_control_gain_2_*min_distance * (std::sin(closest_object_bearing)/closest_object_bearing) ;
+          cmd_vel_msg.angular.z = (angle_control_gain_1_*closest_object_bearing) - angle_control_gain_2_*distance_error * (std::sin(closest_object_bearing)/closest_object_bearing) ;
         }
         else
         {
-          cmd_vel_msg.angular.z = (angle_control_gain_1_*closest_object_bearing) - angle_control_gain_2_*min_distance;
+          cmd_vel_msg.angular.z = (angle_control_gain_1_*closest_object_bearing) - angle_control_gain_2_*distance_error;
 
         }    
       }
