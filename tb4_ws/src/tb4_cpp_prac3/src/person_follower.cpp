@@ -24,7 +24,7 @@ public:
       */
 
       // Declare parameters
-      this->declare_parameter<float>("following_distance", 0.8);
+      this->declare_parameter<float>("following_distance", 0.5);
       this->declare_parameter<float>("following_angle", 0);
       this->declare_parameter<float>("angle_control_gain", 3.0);
       this->declare_parameter<float>("distance_control_gain", 0.5);
@@ -109,10 +109,12 @@ void PersonFollower::scan_callback(const sensor_msgs::msg::LaserScan::SharedPtr 
   }
 
   geometry_msgs::msg::Twist cmd_vel_msg; 
+
+  double distance_error = min_distance - following_distance_;
   
-  if (min_distance < 12.0 && min_index!=-1)
+  float closest_object_bearing = (angle_global_min + min_index*angle_increment) + (PI/2); 
+  if (min_distance < 12.0 && min_index!=-1 && distance_error > 0)
   {
-    float closest_object_bearing = (angle_global_min + min_index*angle_increment) + (PI/2); 
 
     RCLCPP_INFO(
         this->get_logger(),
@@ -125,8 +127,15 @@ void PersonFollower::scan_callback(const sensor_msgs::msg::LaserScan::SharedPtr 
     );
     cmd_vel_msg.angular.z = angle_control_gain_*(closest_object_bearing - following_angle_);
     cmd_vel_msg.linear.x = following_distance_control_gain_*(min_distance - following_distance_);
+
+  
   }
-  else
+  else if (distance_error <= 0)
+  {        
+    cmd_vel_msg.angular.z = angle_control_gain_*(closest_object_bearing - following_angle_);
+    
+  }
+  else 
   {
     RCLCPP_INFO(this->get_logger(), "No Object is Detected");
     cmd_vel_msg.linear.x = 0.0;
@@ -190,7 +199,7 @@ PersonFollower::dynamicParametersCallback(std::vector<rclcpp::Parameter> paramet
         following_distance_control_gain_ = parameter.as_double();
         if(following_distance_control_gain_<0.0)
         {
-          RCLCPP_WARN(this->get_logger(), "You've set the angle control gain to be negative,"
+          RCLCPP_WARN(this->get_logger(), "You've set the following distance control gain to be negative,"
           " this isn't allowed, so the following  control gain will be set to be 1.");
           following_distance_control_gain_ = 1.0;
         }
