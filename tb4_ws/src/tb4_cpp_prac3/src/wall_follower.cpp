@@ -29,12 +29,12 @@ public:
         auto buffer_zone_desc = rcl_interfaces::msg::ParameterDescriptor{};
         buffer_zone_desc.description = "A positive value used to determine whether the tracking control is on or off";
         // Declare parameters
-        this->declare_parameter<float>("following_distance", 1.0);
+        this->declare_parameter<float>("following_distance", 0.35);
         this->declare_parameter<int8_t>("wall_side", 1, wall_side_desc);
-        this->declare_parameter<float>("buffer_zone", 0.2, buffer_zone_desc);
-        this->declare_parameter<float>("forward_velocity", 0.7);
-        this->declare_parameter<float>("angle_control_gain_1", 1.0);
-        this->declare_parameter<float>("angle_control_gain_2", 1.0);
+        this->declare_parameter<float>("buffer_zone", 0.075, buffer_zone_desc);
+        this->declare_parameter<float>("forward_velocity", 0.2);
+        this->declare_parameter<float>("angle_control_gain_1", 2.5);
+        this->declare_parameter<float>("angle_control_gain_2", 1.2);
         this->declare_parameter<float>("distance_control_gain", 0.5);
         // Get parameter values
         this->get_parameter("following_distance", following_distance_);

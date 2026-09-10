@@ -1,0 +1,4 @@
+Invoking command in '/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim -- -j24 -l24
+Invoked command in '/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim -- -j24 -l24
+Invoking command in '/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim
+Invoked command in '/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim

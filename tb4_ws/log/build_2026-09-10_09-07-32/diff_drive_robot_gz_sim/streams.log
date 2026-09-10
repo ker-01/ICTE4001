@@ -1,0 +1,58 @@
+[0.008s] Invoking command in '/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/robotai/ICTE4001/tb4_ws/diff_drive_robot_gz_sim -DCMAKE_INSTALL_PREFIX=/home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim
+[0.035s] -- The C compiler identification is GNU 11.4.0
+[0.064s] -- The CXX compiler identification is GNU 11.4.0
+[0.068s] -- Detecting C compiler ABI info
+[0.099s] -- Detecting C compiler ABI info - done
+[0.102s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.103s] -- Detecting C compile features
+[0.103s] -- Detecting C compile features - done
+[0.104s] -- Detecting CXX compiler ABI info
+[0.140s] -- Detecting CXX compiler ABI info - done
+[0.144s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.144s] -- Detecting CXX compile features
+[0.144s] -- Detecting CXX compile features - done
+[0.146s] -- Found ament_cmake: 1.3.9 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.217s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.257s] -- Found ament_lint_auto: 0.12.11 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[0.293s] -- Added test 'flake8' to check Python code syntax and style conventions
+[0.293s] -- Added test 'lint_cmake' to check CMake code style
+[0.294s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[0.294s] -- Added test 'xmllint' to check XML markup files
+[0.294s] -- Configuring done
+[0.295s] -- Generating done
+[0.296s] -- Build files have been written to: /home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim
+[0.299s] Invoked command in '/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/robotai/ICTE4001/tb4_ws/diff_drive_robot_gz_sim -DCMAKE_INSTALL_PREFIX=/home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim
+[0.301s] Invoking command in '/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim -- -j24 -l24
+[0.321s] Invoked command in '/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim -- -j24 -l24
+[0.337s] Invoking command in '/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim
+[0.340s] -- Install configuration: ""
+[0.340s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim//launch
+[0.340s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim//launch/MRobot_base.launch.py
+[0.340s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim//launch/ros_gz_bridge.launch.py
+[0.340s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim//launch/MRobot_control.launch.py
+[0.340s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim//launch/MRobot_sensor.launch.py
+[0.340s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim//config
+[0.340s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim//config/mobile_base_control.yaml
+[0.340s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim//urdf
+[0.340s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim//urdf/ICTE4001_MRobot_sensor.urdf.xacro
+[0.340s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim//urdf/ICTE4001_MRobot_control.urdf.xacro
+[0.340s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim//urdf/ICTE4001_MRobot_base.urdf.xacro
+[0.340s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim//rviz
+[0.340s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim//rviz/view_robot.rviz
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim//rviz/view_robot_sensor.rviz
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/ament_index/resource_index/package_run_dependencies/diff_drive_robot_gz_sim
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/ament_index/resource_index/parent_prefix_path/diff_drive_robot_gz_sim
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim/environment/ament_prefix_path.sh
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim/environment/ament_prefix_path.dsv
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim/environment/path.sh
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim/environment/path.dsv
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim/local_setup.bash
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim/local_setup.sh
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim/local_setup.zsh
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim/local_setup.dsv
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim/package.dsv
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/ament_index/resource_index/packages/diff_drive_robot_gz_sim
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim/cmake/diff_drive_robot_gz_simConfig.cmake
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim/cmake/diff_drive_robot_gz_simConfig-version.cmake
+[0.341s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/diff_drive_robot_gz_sim/share/diff_drive_robot_gz_sim/package.xml
+[0.342s] Invoked command in '/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim
