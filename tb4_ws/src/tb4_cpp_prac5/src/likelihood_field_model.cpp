@@ -29,7 +29,7 @@ namespace iar_amcl
         double obs_range, obs_bearing; // the measurement values of one laser beam
         double total_weight;
         pf_sample_t * sample;
-        pf_vector_t pose_robot; 
+        pf_vector_t pose;
 
         // hit_x and hit_y are the horizontal position and vertical position of the endpoint of a laser beam
         double hit_x, hit_y;
@@ -40,13 +40,17 @@ namespace iar_amcl
 
         // Compute the sample weights
         for (j = 0; j < set->sample_count; j++) {
-                sample = set->samples + j;
-                pose_robot = sample->pose;
+                sample = set->samples + j; 
+
 
                 /* TODO TASK - MILSTONE 1.1 
                     Compute the pose of the lidar sensor.
                 */
-     
+
+                pose = sample->pose;
+
+                pose = pf_vector_coord_add(self->laser_pose_, pose);
+
 
                 p = 1.0;
 
@@ -59,23 +63,61 @@ namespace iar_amcl
                 for (i = 0; i < data->range_count; i += step) {
                     obs_range = data->ranges[i][0];
                     obs_bearing = data->ranges[i][1];
+                    // obs_bearing += (3.141/2) 
 
                     pz = 0.0;
                     /* TODO TASK - MILESTONE 1.2
                         Check whether the laser beam's value is infinity, if yes, skip this beam measurement
                     */
+                    if (isnan(obs_range)){
+                        continue;
+                    }
+
+                    if (isinf(obs_range)){
+                        continue;
+                    }
 
 
                     /* 
                         TODO TASK - MILESTONE 1.3
                         Check whether a failure measurement is detected, i.e., max range is detected. If yes, update the probability
                     */
-
+                    if (obs_range == data->range_max) 
+                    {
+                        pz += self->z_max_ * 1.0;
+                        continue;
+                    }
 
                     /* 
                         TODO TASK - MILESTONE 1.4
                         Process a beam with range measurement less than the maximum value.
                     */
+                    pz += self->z_rand_ / data->range_max;
+                    hit_x = pose.v[0] + obs_range *std::cos(pose.v[2]+obs_bearing);
+                    hit_y = pose.v[1] + obs_range *std::sin(pose.v[2]+obs_bearing);
+
+                    int m_x = MAP_GXWX(self->map_, hit_x);
+                    int m_y = MAP_GYWY(self->map_, hit_y);
+
+                    bool valid = MAP_VALID(self->map_, m_x, m_y);
+                    int index = MAP_INDEX(self->map_, m_x, m_y);
+                    
+                    if (valid){
+                        dist = self->map_->cells[index].occ_dist;
+                    }
+                    else{
+                        double max_occ_dist = self->map_->max_occ_dist;
+                        dist = max_occ_dist;
+                        }
+
+                    double p_hit =
+                            std::exp(-(dist * dist) /
+                                (2.0 * self->sigma_hit_ * self->sigma_hit_));
+
+                    pz += self->z_hit_ * p_hit;
+                    
+                    
+
 
                     
                     

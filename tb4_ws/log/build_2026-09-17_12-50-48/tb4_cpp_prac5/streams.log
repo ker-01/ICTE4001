@@ -1,0 +1,10 @@
+[0.010s] Invoking command in '/home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac5': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac5 -- -j24 -l24
+[0.039s] [ 25%] [32mBuilding CXX object CMakeFiles/iar_amcl.dir/src/likelihood_field_model.cpp.o[0m
+[0.132s] [01m[K/home/robotai/ICTE4001/tb4_ws/src/tb4_cpp_prac5/src/likelihood_field_model.cpp:[m[K In static member function ‘[01m[Kstatic double iar_amcl::LikelihoodFieldModel::sensorFunction(nav2_amcl::LaserData*, pf_sample_set_t*)[m[K’:
+[0.132s] [01m[K/home/robotai/ICTE4001/tb4_ws/src/tb4_cpp_prac5/src/likelihood_field_model.cpp:66:37:[m[K [01;31m[Kerror: [m[K‘[01m[KPI[m[K’ was not declared in this scope
+[0.132s]    66 |                     obs_bearing += ([01;31m[KPI[m[K/2)
+[0.132s]       |                                     [01;31m[K^~[m[K
+[0.155s] gmake[2]: *** [CMakeFiles/iar_amcl.dir/build.make:104: CMakeFiles/iar_amcl.dir/src/likelihood_field_model.cpp.o] Error 1
+[0.155s] gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/iar_amcl.dir/all] Error 2
+[0.155s] gmake: *** [Makefile:146: all] Error 2
+[0.158s] Invoked command in '/home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac5' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac5 -- -j24 -l24

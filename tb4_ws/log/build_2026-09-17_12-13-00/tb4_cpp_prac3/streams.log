@@ -1,0 +1,76 @@
+[0.011s] Invoking command in '/home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac3': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/robotai/ICTE4001/tb4_ws/src/tb4_cpp_prac3 -DCMAKE_INSTALL_PREFIX=/home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3
+[0.039s] -- The C compiler identification is GNU 11.4.0
+[0.067s] -- The CXX compiler identification is GNU 11.4.0
+[0.071s] -- Detecting C compiler ABI info
+[0.107s] -- Detecting C compiler ABI info - done
+[0.111s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.111s] -- Detecting C compile features
+[0.112s] -- Detecting C compile features - done
+[0.113s] -- Detecting CXX compiler ABI info
+[0.152s] -- Detecting CXX compiler ABI info - done
+[0.156s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.156s] -- Detecting CXX compile features
+[0.157s] -- Detecting CXX compile features - done
+[0.158s] -- Found ament_cmake: 1.3.9 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.229s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.269s] -- Found rclcpp: 16.0.9 (/opt/ros/humble/share/rclcpp/cmake)
+[0.285s] -- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.287s] -- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.291s] -- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.296s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.304s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.331s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.333s] -- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.376s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[0.387s] -- Found FastRTPS: /opt/ros/humble/include  
+[0.410s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.414s] -- Looking for pthread.h
+[0.448s] -- Looking for pthread.h - found
+[0.450s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[0.483s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[0.484s] -- Found Threads: TRUE  
+[0.549s] -- Found geometry_msgs: 4.2.4 (/opt/ros/humble/share/geometry_msgs/cmake)
+[0.567s] -- Found nav_msgs: 4.2.4 (/opt/ros/humble/share/nav_msgs/cmake)
+[0.603s] -- Found sensor_msgs: 4.2.4 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.640s] -- Found ament_lint_auto: 0.12.11 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[0.675s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[0.675s] -- Configured cppcheck include dirs: $<BUILD_INTERFACE:/home/robotai/ICTE4001/tb4_ws/src/tb4_cpp_prac3/include>
+[0.675s] -- Configured cppcheck exclude dirs and/or files: 
+[0.675s] -- Added test 'lint_cmake' to check CMake code style
+[0.675s] -- Added test 'uncrustify' to check C / C++ code style
+[0.675s] -- Configured uncrustify additional arguments: 
+[0.676s] -- Added test 'xmllint' to check XML markup files
+[0.676s] -- Configuring done
+[0.681s] -- Generating done
+[0.682s] -- Build files have been written to: /home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac3
+[0.688s] Invoked command in '/home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac3' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/robotai/ICTE4001/tb4_ws/src/tb4_cpp_prac3 -DCMAKE_INSTALL_PREFIX=/home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3
+[0.688s] Invoking command in '/home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac3': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac3 -- -j24 -l24
+[0.713s] [ 25%] [32mBuilding CXX object CMakeFiles/wall_follower.dir/src/wall_follower.cpp.o[0m
+[0.714s] [ 50%] [32mBuilding CXX object CMakeFiles/person_follower.dir/src/person_follower.cpp.o[0m
+[4.629s] [ 75%] [32m[1mLinking CXX executable person_follower[0m
+[4.631s] [100%] [32m[1mLinking CXX executable wall_follower[0m
+[4.836s] [100%] Built target wall_follower
+[4.851s] [100%] Built target person_follower
+[4.860s] Invoked command in '/home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac3' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac3 -- -j24 -l24
+[4.877s] Invoking command in '/home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac3': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac3
+[4.881s] -- Install configuration: ""
+[4.881s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/lib/tb4_cpp_prac3/person_follower
+[4.882s] -- Set runtime path of "/home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/lib/tb4_cpp_prac3/person_follower" to ""
+[4.882s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/lib/tb4_cpp_prac3/wall_follower
+[4.883s] -- Set runtime path of "/home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/lib/tb4_cpp_prac3/wall_follower" to ""
+[4.883s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/ament_index/resource_index/package_run_dependencies/tb4_cpp_prac3
+[4.883s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/ament_index/resource_index/parent_prefix_path/tb4_cpp_prac3
+[4.883s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/tb4_cpp_prac3/environment/ament_prefix_path.sh
+[4.883s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/tb4_cpp_prac3/environment/ament_prefix_path.dsv
+[4.884s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/tb4_cpp_prac3/environment/path.sh
+[4.884s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/tb4_cpp_prac3/environment/path.dsv
+[4.884s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/tb4_cpp_prac3/local_setup.bash
+[4.884s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/tb4_cpp_prac3/local_setup.sh
+[4.884s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/tb4_cpp_prac3/local_setup.zsh
+[4.884s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/tb4_cpp_prac3/local_setup.dsv
+[4.884s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/tb4_cpp_prac3/package.dsv
+[4.884s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/ament_index/resource_index/packages/tb4_cpp_prac3
+[4.884s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/tb4_cpp_prac3/cmake/tb4_cpp_prac3Config.cmake
+[4.884s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/tb4_cpp_prac3/cmake/tb4_cpp_prac3Config-version.cmake
+[4.884s] -- Installing: /home/robotai/ICTE4001/tb4_ws/install/tb4_cpp_prac3/share/tb4_cpp_prac3/package.xml
+[4.887s] Invoked command in '/home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac3' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/robotai/ICTE4001/tb4_ws/build/tb4_cpp_prac3
