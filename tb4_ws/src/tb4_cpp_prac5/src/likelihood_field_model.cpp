@@ -82,39 +82,41 @@ namespace iar_amcl
                         TODO TASK - MILESTONE 1.3
                         Check whether a failure measurement is detected, i.e., max range is detected. If yes, update the probability
                     */
-                    if (obs_range == data->range_max) 
+                    if (obs_range >= data->range_max) 
                     {
                         pz += self->z_max_ * 1.0;
-                        
+                               
                     }
 
                     /* 
                         TODO TASK - MILESTONE 1.4
                         Process a beam with range measurement less than the maximum value.
                     */
-                    pz += self->z_rand_ / data->range_max;
-                    hit_x = pose.v[0] + obs_range *std::cos(pose.v[2]+obs_bearing);
-                    hit_y = pose.v[1] + obs_range *std::sin(pose.v[2]+obs_bearing);
-
-                    int m_x = MAP_GXWX(self->map_, hit_x);
-                    int m_y = MAP_GYWY(self->map_, hit_y);
-
-                    bool valid = MAP_VALID(self->map_, m_x, m_y);
-                    int index = MAP_INDEX(self->map_, m_x, m_y);
-                    
-                    if (valid){
-                        dist = self->map_->cells[index].occ_dist;
-                    }
                     else{
-                        double max_occ_dist = self->map_->max_occ_dist;
-                        dist = max_occ_dist;
+                        pz += self->z_rand_ / data->range_max;
+                        hit_x = pose.v[0] + obs_range *std::cos(pose.v[2]+obs_bearing);
+                        hit_y = pose.v[1] + obs_range *std::sin(pose.v[2]+obs_bearing);
+    
+                        int m_x = MAP_GXWX(self->map_, hit_x);
+                        int m_y = MAP_GYWY(self->map_, hit_y);
+    
+                        bool valid = MAP_VALID(self->map_, m_x, m_y);
+                        int index = MAP_INDEX(self->map_, m_x, m_y);
+                        
+                        if (valid){
+                            dist = self->map_->cells[index].occ_dist;
                         }
-
-                    double p_hit =
-                            std::exp(-(dist * dist) /
-                                (2.0 * self->sigma_hit_ * self->sigma_hit_));
-
-                    pz += self->z_hit_ * p_hit;
+                        else{
+                            double max_occ_dist = self->map_->max_occ_dist;
+                            dist = max_occ_dist;
+                            }
+    
+                        double p_hit =
+                                std::exp(-(dist * dist) /
+                                    (2.0 * self->sigma_hit_ * self->sigma_hit_));
+    
+                        pz += self->z_hit_ * p_hit;
+                    }
                     
                     
 
