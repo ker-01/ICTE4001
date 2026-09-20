@@ -1,9 +1,0 @@
-/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim/CMakeFiles/uninstall.dir
-/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim/CMakeFiles/diff_drive_robot_gz_sim_uninstall.dir
-/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim/CMakeFiles/test.dir
-/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim/CMakeFiles/edit_cache.dir
-/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim/CMakeFiles/rebuild_cache.dir
-/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim/CMakeFiles/list_install_components.dir
-/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim/CMakeFiles/install.dir
-/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim/CMakeFiles/install/local.dir
-/home/robotai/ICTE4001/tb4_ws/build/diff_drive_robot_gz_sim/CMakeFiles/install/strip.dir
