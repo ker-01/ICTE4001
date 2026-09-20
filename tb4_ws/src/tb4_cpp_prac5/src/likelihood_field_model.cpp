@@ -85,7 +85,7 @@ namespace iar_amcl
                     if (obs_range == data->range_max) 
                     {
                         pz += self->z_max_ * 1.0;
-                        continue;
+                        
                     }
 
                     /* 
