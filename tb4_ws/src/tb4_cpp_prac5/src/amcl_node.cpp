@@ -119,7 +119,7 @@ AmclNode::AmclNode(const rclcpp::NodeOptions & options)
     "How many evenly-spaced beams in each scan to be used when updating the filter");
 
   add_parameter(
-    "max_particles", rclcpp::ParameterValue(2000),
+    "max_particles", rclcpp::ParameterValue(5000),
     "Maximum allowed number of particles");
 
   add_parameter(
@@ -134,13 +134,13 @@ AmclNode::AmclNode(const rclcpp::NodeOptions & options)
   add_parameter("pf_z", rclcpp::ParameterValue(0.99));
 
   add_parameter(
-    "recovery_alpha_fast", rclcpp::ParameterValue(0.0),
+    "recovery_alpha_fast", rclcpp::ParameterValue(0.1),
     "Exponential decay rate for the fast average weight filter, used in deciding when to recover "
     "by adding random poses",
     "A good value might be 0.1");
 
   add_parameter(
-    "recovery_alpha_slow", rclcpp::ParameterValue(0.0),
+    "recovery_alpha_slow", rclcpp::ParameterValue(0.001),
     "Exponential decay rate for the slow average weight filter, used in deciding when to recover "
     "by adding random poses",
     "A good value might be 0.001");
