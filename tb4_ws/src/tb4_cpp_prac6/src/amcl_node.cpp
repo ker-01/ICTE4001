@@ -1568,9 +1568,9 @@ AmclNode::pf_resample(pf_t * pf){
     to the array "cd_old_set"
   */
   
-  cd_old_set[0] = 0.0
+  cd_old_set[0] = 0.0;
 
-  for (int i = 0, i <old_particle_set->sample_count, i++)
+  for (int i = 0;i <old_particle_set->sample_count; i++)
   {
     cd_old_set[i+1] = cd_old_set[i] + old_particle_set->samples[i].weight;
   }
@@ -1581,9 +1581,10 @@ AmclNode::pf_resample(pf_t * pf){
     Initialise new sample set with sample count = 0, and  
     set total weight of the new particle set to zero
   */
+  double total_weight = 0.0;
 
   new_particle_set->sample_count = 0;
-  new_particle_set->total_weight = 0.0;
+  // new_particle_set->total_weight = 0.0;
 
 
   /* TODO TASK - MILESTONE #2
@@ -1627,7 +1628,7 @@ AmclNode::pf_resample(pf_t * pf){
     */
     double new_weight = 1.0/pf->max_samples;
     sample_in_new_set->weight = new_weight;
-    new_particle_set->total_weight += new_weight; 
+    total_weight += new_weight; 
 
 
 
@@ -1643,12 +1644,13 @@ AmclNode::pf_resample(pf_t * pf){
     double pop_error = pf_err_;
     if (k<= 1)
     {
-      M = pf->max_particles
+      M = pf->max_samples;
     }
     else 
     {
-      double crazy_term = ((k-1.0)/(2.0*pop_error))*std::pow((1.0-(2.0/(9.0*(k-1)))+ (std::sqrt(2/(9*(k-1))))*(pf_z_)),3);
-      M = std::max(pf->min_particles, std::ceil(crazy_term));  
+      int crazy_term = ((k-1.0)/(2.0*pop_error))*std::pow((1.0-(2.0/(9.0*(k-1)))+ (std::sqrt(2/(9*(k-1))))*(pf_z_)),3);
+      crazy_term = static_cast<int>(std::round(crazy_term));
+      M = std::max(pf->min_samples, crazy_term);  
     }
     if (new_particle_set->sample_count >= M)
     {
@@ -1669,7 +1671,7 @@ AmclNode::pf_resample(pf_t * pf){
   */
   for (int i = 0; i < new_particle_set->sample_count; i++)
   {
-    new_particle_set->samples[i].weight /= new_particle_set->total_weight;
+    new_particle_set->samples[i].weight /= total_weight;
   }
 
 
