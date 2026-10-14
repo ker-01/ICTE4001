@@ -204,6 +204,7 @@ namespace iar_astar_planner
 
     bool NavFn::propAstar(int cycles)
     {
+    
         int max_blk_size = 0;  // max priority block size
         int n_cells = 0;  // number of cells put into priority blocks
         int cycle = 0;  // which cycle we're on
@@ -219,6 +220,7 @@ namespace iar_astar_planner
         int goal_y = goal_[1];
 
         int heuristic_dist = COST_NEUTRAL * std::sqrt(std::pow(goal_x-start_x,2)+std::pow(goal_y - start_y,2));
+        potentThreshInc_ = 2 * COST_NEUTRAL;
         potentThreshInc_ += heuristic_dist;
 
 
@@ -302,7 +304,7 @@ namespace iar_astar_planner
             */
             int goal_index = goal_[0] + goal_[1] * nx_;
 
-            if (potarr_[goal_index] < POT_HIGHEST)
+            if (potarr_[goal_index] < POT_HIGHEST && potarr_[goal_index] >= 0) 
             {
                 propSuccess = true;
                 break;
